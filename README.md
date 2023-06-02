@@ -1,2 +1,2 @@
-# react-photos-with-pagination
+# react-photos-with-pagination-and-search
 Created with CodeSandbox
