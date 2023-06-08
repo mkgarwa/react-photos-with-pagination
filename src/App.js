@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Photos from "./photos";
 import Pagination from "./pagination";
 import useFetch from "./fetchHook";
+import SearchBar from "./search";
 
 export default function App() {
   const [recordPerPage] = useState(50);
@@ -63,14 +64,7 @@ export default function App() {
   return (
     <div className="App">
       <h1>Hello CodeSandbox</h1>
-      <div className="container">
-        <input
-          type="text"
-          className="input"
-          placeholder="search..."
-          onChange={filterTable}
-        />
-      </div>
+      <SearchBar filterTable={filterTable} />
       <Photos photos={currentRecords} />
       <Pagination
         pageCount={pageCount}
