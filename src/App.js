@@ -7,8 +7,11 @@ import useFetch from "./fetchHook";
 import SearchBar from "./search";
 
 export default function App() {
+  const path = window.location.pathname;
+  const initialQueryString = new URLSearchParams(window.location.search);
+  const initialPageNumber = Number(initialQueryString.get('page')) || 1;
   const [recordPerPage] = useState(50);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(initialPageNumber);
   const indexOfLastRecord = currentPage * recordPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordPerPage;
   const [fetchedPhotos] = useFetch(constants.ALL_PHOTOS);
@@ -26,6 +29,7 @@ export default function App() {
   useEffect(() => {
     setPhotos(fetchedPhotos);
     setCurrentRecords(fetchedCurrentRecords);
+    window.history.replaceState(null, null, `?page=${currentPage}`);
   }, [fetchedPhotos, fetchedCurrentRecords]);
 
   const searchPhotos = useCallback(
