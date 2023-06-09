@@ -1,13 +1,15 @@
+import {Table} from 'react-bootstrap';
+
 const Photos = (props) => {
   const photos = props.photos;
 
   return (
-    <table border="1" className="photos-table">
+    <Table striped bordered hover>
       <thead>
         <tr>
           <th>ID</th>
           <th>Title</th>
-          <th>Thumbnail</th>
+          <th className="text-center">Thumbnail</th>
         </tr>
       </thead>
       <tbody>
@@ -16,7 +18,7 @@ const Photos = (props) => {
             <tr key={data.id}>
               <td>{data.id}</td>
               <td>{data.title}</td>
-              <td>
+              <td className="text-center">
                 <img
                   src={data.thumbnailUrl}
                   width="32"
@@ -27,7 +29,7 @@ const Photos = (props) => {
             </tr>
           ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 

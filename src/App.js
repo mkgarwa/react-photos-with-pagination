@@ -2,7 +2,7 @@ import "./styles.css";
 import * as constants from "./constants";
 import { useCallback, useEffect, useState } from "react";
 import Photos from "./photos";
-import Pagination from "./pagination";
+import TablePagination from "./pagination";
 import useFetch from "./fetchHook";
 import SearchBar from "./search";
 
@@ -62,15 +62,17 @@ export default function App() {
   );
 
   return (
-    <div className="App">
-      <h1>Hello CodeSandbox</h1>
+    <main className="container">
+      <div className="row mt-4">
+        <h3>React Photos API with Pagination</h3>
+      </div>
       <SearchBar filterTable={filterTable} />
       <Photos photos={currentRecords} />
-      <Pagination
+      {pageCount && <TablePagination
         pageCount={pageCount}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-      />
-    </div>
+      /> }
+    </main>
   );
 }

@@ -1,42 +1,58 @@
-const Pagination = (props) => {
+
+import { useEffect, useState } from 'react';
+import Pagination from 'react-bootstrap/Pagination';
+
+const TablePagination = (props) => {
   const { pageCount, currentPage, setCurrentPage } = props;
-  const pageNumbers = [...Array(pageCount + 1).keys()].slice(1);
+  const [paginationNumbers, setPaginationNumbers] = useState([]);
 
   const nextPage = () => {
     if (currentPage !== pageCount) {
-      setCurrentPage(pageCount + 1);
+      setCurrentPage(currentPage + 1);
     }
   };
 
   const prevPage = () => {
     if (currentPage !== 1) {
-      setCurrentPage(pageCount - 1);
+      setCurrentPage(currentPage - 1);
     }
   };
 
+  const showPaginationNumbers = () => {
+    let maxButtons = [];
+    let showMax = 20;
+    let endPage = props.pageCount;
+    let startPage = currentPage;
+
+    if (pageCount > showMax) {
+      if (currentPage !== pageCount && (currentPage + 1) !== pageCount) {
+        endPage = Math.min(currentPage + showMax - 1, pageCount);
+      }
+      if (endPage - startPage < showMax) {
+        startPage = Math.max(endPage - showMax, 1);
+      }
+    }
+    for (var i = startPage; i <= endPage; i++) {
+      maxButtons.push(i);
+    }
+    setPaginationNumbers(maxButtons);
+  };
+
+  useEffect(() => {
+    showPaginationNumbers();
+  }, [currentPage]);
+
   return (
-    <nav>
-      <ul className="pagination">
-        <li className="page-item">
-          <a href="#" onClick={prevPage}>
-            Previous
-          </a>
-        </li>
-        {pageNumbers.map((page) => (
-          <li key={page}>
-            <a href="#" onClick={() => setCurrentPage(page)}>
-              {page}
-            </a>
-          </li>
-        ))}
-        <li className="page-item">
-          <a href="#" onClick={nextPage}>
-            Next
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <Pagination className="d-flex justify-content-center mb-5 mt-4">
+      <Pagination.Prev onClick={prevPage} disabled={currentPage === 1} />
+      {paginationNumbers.map((page) => (
+        <Pagination.Item key={page} active={page === currentPage} onClick={() => setCurrentPage(page)}>
+          {page}
+        </Pagination.Item>
+      ))}
+      <Pagination.Next onClick={nextPage} disabled={currentPage === pageCount} />
+    </Pagination>
   );
 };
 
-export default Pagination;
+export default TablePagination;
